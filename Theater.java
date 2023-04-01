@@ -21,6 +21,16 @@ public class Theater {
         }
     }
 
+    public char[][] getSeatingChart() {
+        return seatingChart;
+    }
+
+    public boolean isSeatAvailable(int row, int seatNum) {
+        return seatingChart[row - 1][seatNum - 1] == 'S';
+    }
+
+
+
     public void printSeatingChart() {
         // print the seating chart
         System.out.println("\nCinema:");
@@ -57,5 +67,34 @@ public class Theater {
                 return CHEAP_SEATS;
             }
         }
+    }
+
+    public int numRows() {
+        return this.seatingChart.length;
+    }
+
+    public int numSeatsPerRow() {
+        return this.seatingChart[0].length;
+    }
+
+    public int numTotalSeats(int rows, int seatsPerRow) {
+        return rows * seatsPerRow;
+    }
+
+
+    public int totalIncome() {
+
+        int totalSeats = numTotalSeats(numRows(), numSeatsPerRow());
+        int totalIncome = 0;
+
+        if (totalSeats <= SMALL_THEATER) {
+            totalIncome = totalSeats * EXPENSIVE_SEATS;
+        } else {
+            int expensiveRows = numRows() / 2;
+            int cheapRows = numRows() - expensiveRows;
+            totalIncome = expensiveRows * numSeatsPerRow() * EXPENSIVE_SEATS
+                    + cheapRows * numSeatsPerRow() * CHEAP_SEATS;
+        }
+        return totalIncome;
     }
 }
